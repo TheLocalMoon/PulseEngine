@@ -1,5 +1,6 @@
 package;
 
+import flixel.FlxGame;
 import NGio;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -21,6 +22,8 @@ import ui.MenuList;
 import ui.OptionsState;
 import ui.PreferencesMenu;
 import ui.Prompt;
+import shaderslmfao.ColorSwap;
+import haxe.Timer;
 
 using StringTools;
 
@@ -38,7 +41,11 @@ class MainMenuState extends MusicBeatState
 
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
-
+	//var gfDance:FlxSprite;
+	//var swagShader:ColorSwap;
+	//var danceLeft:Bool = false;
+    //var timer:haxe.Timer;
+    //var counter:Int = 0;
 	override function create()
 	{
 		#if discord_rpc
@@ -46,6 +53,7 @@ class MainMenuState extends MusicBeatState
 		DiscordClient.changePresence("In the Menus", null);
 		#end
 
+		//swagShader = new ColorSwap();
 		transIn = FlxTransitionableState.defaultTransIn;
 		transOut = FlxTransitionableState.defaultTransOut;
 
@@ -56,7 +64,17 @@ class MainMenuState extends MusicBeatState
 
 		persistentUpdate = persistentDraw = true;
 
-		var bg:FlxSprite = new FlxSprite(Paths.image('menuBG'));
+		/*gfDance = new FlxSprite(FlxG.width / 2 - 230, FlxG.height * 0.07);
+		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
+		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
+		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
+		gfDance.antialiasing = true;
+		add(gfDance);
+		gfDance.shader = swagShader.shader;*/
+
+		var colors:Array<String> = ["Blue", "Red", "Black", "Orange", "Magenta"];
+		var randomColor:String = colors[Math.floor(Math.random() * colors.length)];
+		var bg:FlxSprite = new FlxSprite(Paths.image("menuBG" + randomColor));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.17;
 		bg.setGraphicSize(Std.int(bg.width * 1.2));
@@ -77,7 +95,7 @@ class MainMenuState extends MusicBeatState
 		magenta.y = bg.y;
 		magenta.visible = false;
 		magenta.antialiasing = true;
-		magenta.color = 0xFFfd719b;
+		//magenta.color = 0xFFfd719b;
 		if (PreferencesMenu.preferences.get('flashing-menu'))
 			add(magenta);
 		// magenta.scrollFactor.set();
@@ -116,7 +134,7 @@ class MainMenuState extends MusicBeatState
 		for (i in 0...menuItems.length)
 		{
 			var menuItem = menuItems.members[i];
-			menuItem.x = FlxG.width / 2;
+			menuItem.x = FlxG.width / 2 + 230;
 			menuItem.y = top + spacing * i;
 		}
 
@@ -128,15 +146,37 @@ class MainMenuState extends MusicBeatState
 		fnfVer.scrollFactor.set();
 		fnfVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		
-		var engVer:FlxText = new FlxText(5, FlxG.height - 18*2, 0, "Pulse Engine v0.1", 12);
+		var engVer:FlxText = new FlxText(5, FlxG.height - 18*2, 0, "Pulse Engine v0.11", 12);
 		engVer.scrollFactor.set();
 		engVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+
+		var gf:FlxText = new FlxText(FlxG.width / 2 + 230, FlxG.height * 0.07, 0, "insert girlfriend here", 12);
+		gf.scrollFactor.set();
+		gf.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 
 		add(fnfVer);
 		add(engVer);
 
+		//timer = new haxe.Timer(800);
+        //timer.run = function() {
+        //    counter++;
+        //    beatHit();
+        //}
+
 		super.create();
 	}
+
+	/*override function beatHit()
+	{
+		super.beatHit();
+
+		danceLeft = !danceLeft;
+
+		if (danceLeft)
+			gfDance.animation.play('danceRight');
+		else
+			gfDance.animation.play('danceLeft');
+	}*/
 
 	override function finishTransIn()
 	{

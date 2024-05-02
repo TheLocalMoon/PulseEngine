@@ -22,7 +22,7 @@ class OutdatedSubState extends MusicBeatState
 			+ "You can report all bugs in:\n"
 			+ "https://discord.gg/zw3hDHG2wc\n"
 			+ "\n"
-			+ "The current engine version is 0.1.\n"
+			+ "The current engine version is 0.11.\n"
 			+ "Press ESCAPE to continue\n",
 			[new FlxTextFormatMarkerPair(redTextFormat, "$")]
 		);

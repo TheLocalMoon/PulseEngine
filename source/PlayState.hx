@@ -136,6 +136,7 @@ class PlayState extends MusicBeatState
 
 	var talking:Bool = true;
 	var songScore:Int = 0;
+	var songMisses:Int = 0;
 	var scoreTxt:FlxText;
 
 	var grpNoteSplashes:FlxTypedGroup<NoteSplash>;
@@ -1506,7 +1507,7 @@ class PlayState extends MusicBeatState
 
 			if (swagCounter > 0)
 				readySetGo(introSprPaths[swagCounter - 1]);
-			
+
 			if (SONG.song.startsWith("Fresh"))
 			{
 				FlxG.sound.play(Paths.sound("freshIntro"), 0.6);
@@ -1928,7 +1929,7 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		scoreTxt.text = "Score:" + songScore;
+		scoreTxt.text = "Misses:" + songMisses + " | Score:" + songScore;
 
 		if (controls.PAUSE && startedCountdown && canPause)
 		{
@@ -2708,6 +2709,7 @@ class PlayState extends MusicBeatState
 				{ // if a direction is hit that shouldn't be
 					if (pressArray[shit] && !directionList.contains(shit))
 						noteMiss(shit);
+					//songMisses += 1;
 				}
 				for (coolNote in possibleNotes)
 				{
@@ -2720,6 +2722,7 @@ class PlayState extends MusicBeatState
 				for (shit in 0...pressArray.length)
 					if (pressArray[shit])
 						noteMiss(shit);
+					songMisses += 1;
 			}
 		}
 
