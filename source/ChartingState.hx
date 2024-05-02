@@ -81,6 +81,8 @@ class ChartingState extends MusicBeatState
 	var leftIcon:HealthIcon;
 	var rightIcon:HealthIcon;
 
+	var pauseMusic:FlxSound;
+
 	override function create()
 	{
 		curSection = lastSection;
@@ -92,6 +94,10 @@ class ChartingState extends MusicBeatState
 		rightIcon = new HealthIcon('dad');
 		leftIcon.scrollFactor.set(1, 1);
 		rightIcon.scrollFactor.set(1, 1);
+
+		pauseMusic = new FlxSound().loadEmbedded(Paths.music('chartEditorLoop'), true, true);
+		pauseMusic.volume = 0.5;
+		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
 		leftIcon.setGraphicSize(0, 45);
 		rightIcon.setGraphicSize(0, 45);
@@ -300,7 +306,7 @@ class ChartingState extends MusicBeatState
 			}
 		});
 
-		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Must hit section", 100);
+		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Must-Hit section", 100);
 		check_mustHitSection.name = 'check_mustHit';
 		check_mustHitSection.checked = true;
 		// _song.needsVoices = check_mustHit.checked;
@@ -584,11 +590,13 @@ class ChartingState extends MusicBeatState
 			{
 				if (FlxG.sound.music.playing)
 				{
+					pauseMusic.play();
 					FlxG.sound.music.pause();
 					vocals.pause();
 				}
 				else
 				{
+					pauseMusic.pause();
 					vocals.play();
 					FlxG.sound.music.play();
 				}

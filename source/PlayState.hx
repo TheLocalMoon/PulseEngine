@@ -1,5 +1,6 @@
 package;
 
+import FreeplayState.SongMetadata;
 import Section.SwagSection;
 import Song.SwagSong;
 import WiggleEffect.WiggleEffectType;
@@ -1505,7 +1506,13 @@ class PlayState extends MusicBeatState
 
 			if (swagCounter > 0)
 				readySetGo(introSprPaths[swagCounter - 1]);
-			FlxG.sound.play(Paths.sound(introSndPaths[swagCounter]), 0.6);
+			
+			if (SONG.song.startsWith("Fresh"))
+			{
+				FlxG.sound.play(Paths.sound("freshIntro"), 0.6);
+			} else {
+				FlxG.sound.play(Paths.sound(introSndPaths[swagCounter]), 0.6);
+			}
 
 			/* switch (swagCounter)
 			{
