@@ -423,18 +423,7 @@ class TitleState extends MusicBeatState
 					var localVersion:String = "v" + Application.current.meta.get('version');
 					var onlineVersion = version.split(" ")[0].trim();
 
-					if (version.trim() != onlineVersion)
-					{
-						trace('OLD VERSION!');
-						// FlxG.switchState(new OutdatedSubState());
-					}
-					else
-					{
-						// FlxG.switchState(new MainMenuState());
-					}
-
-					// REDO FOR ITCH/FINAL SHIT
-					FlxG.switchState(new MainMenuState());
+					FlxG.switchState(new OutdatedSubState());
 				});
 			}
 			#else
